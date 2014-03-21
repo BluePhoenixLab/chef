@@ -72,6 +72,7 @@ class Chef
       private
 
       def response_content_length(response)
+        return nil if response['content-length'].nil?
         if response['content-length'].is_a?(Array)
           response['content-length'].first.to_i
         else
@@ -81,8 +82,8 @@ class Chef
 
       def validate(http_response, response_length)
         content_length    = response_content_length(http_response)
-        transfer_encoding = http_response['transfer_encoding']
-        content_encoding  = http_response['content_encoding']
+        transfer_encoding = http_response['transfer-encoding']
+        content_encoding  = http_response['content-encoding']
 
         Chef::Log.debug "Attempting to validate the Content-Length header of the response"
         Chef::Log.debug "Content-Length header = #{content_length}"
